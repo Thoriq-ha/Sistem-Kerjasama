@@ -8,12 +8,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Kerjasama extends Model
 {
-    use HasFactory;
+	use HasFactory;
 
-    protected $guarded = [];
+	protected $guarded = [];
 
-    // public function usulanKerjasama()
-    // {
-    //     return $this->hasMany(UsulanKerjasama::class, 'id_mitra', 'id');
-    // }
+	public function mitra()
+	{
+		return $this->belongsTo(Mitra::class, 'id_mitra', 'id');
+	}
+
+	public function usulans()
+	{
+		return $this->hasMany(Usulankerjasama::class, 'id_kerjasama', 'id');
+	}
 }

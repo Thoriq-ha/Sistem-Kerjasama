@@ -8,35 +8,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Usulankerjasama extends Model
 {
-    use HasFactory;
+	use HasFactory;
 
-    protected $guarded = [];
-    // protected $fillable = [
-    //     'nama_kerjasama',
-    //     'deskripsi_kerjasama',
-    //     'jenis_kerjasama',
-    //     'bidang_kerjasama',
-    //     'tanggal_mulai',
-    //     'tanggal_selesai',
-    // ];
+	protected $guarded = [];
 
-    // public function kerjasama()
-    // {
-    //     return $this->hasMany(Kerjasama::class, 'no_pengajuan', 'id');
-    // }
-
-    // public function riwayatUsulan()
-    // {
-    //     return $this->belongsTo(RiwayatUsulan::class, 'id_riwayat', 'id');
-    // }
-
-    // public function fileUsulanKerjasama()
-    // {
-    //     return $this->belongsTo(FileUsulanKerjasama::class, 'id_file_usulan', 'id');
-    // }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'id_user', 'id');
-    }
+	public function kerjasama()
+	{
+		return $this->belongsTo(Kerjasama::class, 'id_kerjasama', 'id');
+	}
 }

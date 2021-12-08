@@ -7,5 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Riwayatusulan extends Model
 {
-    use HasFactory;
+	use HasFactory;
+	public function usulan()
+	{
+		return $this->belongsTo(Usulankerjasama::class, 'id_usulankerjasama', 'id');
+	}
 }

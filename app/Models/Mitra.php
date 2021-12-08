@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mitra extends Model
 {
-    use HasFactory;
-    protected $fillable = [
-        'nama_lembaga',
-        'jenis_lembaga',
-    ];
+	use HasFactory;
+	protected $fillable = [
+		'nama_lembaga',
+		'jenis_lembaga',
+	];
 
-    public function usulanKerjasama()
-    {
-        return $this->hasMany(UsulanKerjasama::class, 'id_mitra', 'id');
-    }
+	public function kerjasamas()
+	{
+		return $this->hasMany(Kerjasama::class, 'id_mitra', 'id');
+	}
 }

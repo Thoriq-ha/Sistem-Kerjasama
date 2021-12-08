@@ -19,34 +19,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+	return view('welcome');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
+	return view('dashboard');
 })->name('dashboard');
 
 
 Route::middleware('auth:sanctum')->group(function () {
-    // Route::resource('kerjasama', KerjasamaController::class);
-});
-
-Route::middleware('auth:sanctum')->group(function () {
-    Route::resource('usulan_kerjasama', UsulanKerjasamaController::class);
-});
-
-Route::middleware('auth:sanctum')->group(function () {
-    Route::resource('kerjasama', KerjasamaController::class);
-});
-
-Route::middleware('auth:sanctum')->group(function () {
-    Route::resource('riwayat', RiwayatController::class);
-});
-
-Route::middleware('auth:sanctum')->group(function () {
-    Route::resource('mitra', MitraController::class);
-});
-
-Route::middleware('auth:sanctum')->group(function () {
-    Route::resource('data_user', DatauserController::class);
+	// Route::resource('kerjasama', KerjasamaController::class);
+	Route::resource('mitra', MitraController::class);
+	Route::resource('kerjasama', KerjasamaController::class);
+	Route::resource('usulan_kerjasama', UsulanKerjasamaController::class);
+	Route::resource('riwayat', RiwayatController::class);
+	Route::resource('data_user', DatauserController::class);
 });
