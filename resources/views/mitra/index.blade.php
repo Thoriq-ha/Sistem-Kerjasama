@@ -35,7 +35,7 @@
                                         <div id="emailHelp" class="form-text"></div>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="exampleInputEmail1" class="form-label">Jenis Lembaga</label>
+                                        <label for="exampleInputEmail1" class="form-label">Keterangan</label>
                                         <input required type="text" name="jenis_lembaga" class="form-control"
                                             id="exampleInputEmail1" aria-describedby="emailHelp">
                                         <div id="emailHelp" class="form-text"></div>
@@ -55,7 +55,7 @@
                         <tr>
                             <th scope="col">No. </th>
                             <th scope="col">Nama Lembaga</th>
-                            <th scope="col">Jenis Lembaga</th>
+                            <th scope="col">Keterangan</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>

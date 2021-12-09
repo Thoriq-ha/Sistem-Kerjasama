@@ -12,7 +12,7 @@
 
                     <div class="card-body">
                         <h3 class="card-title">Nama Lembaga : {{ $mitra->nama_lembaga }}</h3>
-                        <h5 class="card-title">Jenis Lembaga : {{ $mitra->jenis_lembaga }}</h5>
+                        <h5 class="card-title">Keterangan : {{ $mitra->jenis_lembaga }}</h5>
                         <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
                             data-bs-target="#exampleModal">
                             Edit Data Mitra
@@ -44,7 +44,7 @@
                                         <div id="emailHelp" class="form-text"></div>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="exampleInputEmail1" class="form-label">Jenis Lembaga</label>
+                                        <label for="exampleInputEmail1" class="form-label">Keterangan</label>
                                         <input required type="text" value="{{ $mitra->jenis_lembaga }}"
                                             name="jenis_lembaga" class="form-control" id="exampleInputEmail1"
                                             aria-describedby="emailHelp">

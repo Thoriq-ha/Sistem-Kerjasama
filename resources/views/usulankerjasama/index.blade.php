@@ -75,7 +75,7 @@
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <th>{{ $uk->kerjasama->nama_kerjasama }}</th>
                                 <th>{{ $uk->kerjasama->mitra->nama_lembaga }}</th>
-                                <th>AKTIF</th>
+                                <th>Tidak disetujui/Revisi</th>
                                 <th>
                                     <a href="{{ route('usulan_kerjasama.show', ['usulan_kerjasama' => $uk]) }}"
                                         class="btn btn-info mb-2">Detail</a>
