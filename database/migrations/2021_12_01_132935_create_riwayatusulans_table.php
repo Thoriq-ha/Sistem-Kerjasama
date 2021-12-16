@@ -16,7 +16,7 @@ class CreateRiwayatusulansTable extends Migration
 		Schema::create('riwayatusulans', function (Blueprint $table) {
 			$table->id();
 			$table->string('status');
-			$table->text('catatan')->default('Belum Ada Catatan');;
+			$table->string('catatan')->default('Belum Ada Catatan');;
 			$table->unsignedBigInteger('id_usulankerjasama');
 			$table->foreign('id_usulankerjasama')->references('id')->on('usulankerjasamas')->onDelete('CASCADE');
 			$table->softDeletes();
