@@ -9,9 +9,8 @@ class RiwayatController extends Controller
 {
 	public function index()
 	{
-		$riwayat = Riwayatusulan::with('usulan')->get();
-		$usulans = Usulankerjasama::get();
+		$riwayats = Riwayatusulan::with('usulan')->get();
 
-		return view('riwayat.index', compact('riwayat', 'usulans'));
+		return view('riwayat.index', compact('riwayats'));
 	}
 }

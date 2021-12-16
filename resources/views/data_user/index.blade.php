@@ -13,7 +13,7 @@
                 <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Add Data User
                 </button>
-                
+
                 {{-- <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -92,62 +92,74 @@
                 </div> --}}
                 <table class="table table-dark table-striped">
                     <thead>
-                      <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Id</th>
-                        <th scope="col">Nama</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Created_at</th>
-                        <th scope="col">Updated_at</th>
-                        <th scope="col">Aksi</th>
-                      </tr>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Nama</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Sebagai</th>
+                            <th scope="col">Created_at</th>
+                            <th scope="col">Updated_at</th>
+                            <th scope="col">Aksi</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    @foreach ($user as $us)
-                        <tr>
-                            <th scope="row">{{ $loop->iteration }}</th>
-                            <th>{{ $us->id }}</th>
-                            <th>{{ $us->name }}</th>
-                            <th>{{ $us->email }}</th>
-                            <th>{{ $us->created_at}}</th>
-                            <th>{{ $us->updated_at}}</th>
-                            
-                            <th>
-                                {{-- <a href="{{ route('kerjasama.show', ['kerjasama' => $uk]) }}" class="btn btn-info mb-2">Detail</a> --}}
+                        @foreach ($users as $us)
+                            <tr>
+                                <th scope="row">{{ $loop->iteration }}</th>
+                                <th>{{ $us->name }}</th>
+                                <th>{{ $us->email }}</th>
+                                <th>
+                                    @if ($us->is_admin == 1)
+                                        Admin
+                                    @else
+                                        Mitra
+                                    @endif
+                                </th>
+                                <th>{{ $us->created_at }}</th>
+                                <th>{{ $us->updated_at }}</th>
+
+                                <th>
+                                    {{-- <a href="{{ route('kerjasama.show', ['kerjasama' => $uk]) }}" class="btn btn-info mb-2">Detail</a> --}}
 
 
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-                                    Delete
-                                </button>
-                                
-                                <!-- Modal -->
-                                <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel"><span class="text-warning"></span></h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body"><span class="text-warning">Apa anda yakin ingin menghapus data Usulan Kerjasama?</span>
-                                        </div>
-                                        <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tidak</button>
-                                            {{-- <form action="{{ route('usulan_kerjasama.destroy', ['usulan_kerjasama' => $us]) }}"
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal2">
+                                        Delete
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal2" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel"><span
+                                                            class="text-warning"></span></h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body"><span class="text-warning">Apa anda yakin
+                                                        ingin menghapus data Usulan Kerjasama?</span>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger"
+                                                        data-bs-dismiss="modal">Tidak</button>
+                                                    {{-- <form action="{{ route('usulan_kerjasama.destroy', ['usulan_kerjasama' => $us]) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('delete')
                                                         <button type="submit" class="btn btn-success">Ya</button>
                                             </form> --}}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    </div>
-                                </div>
-                            </th>
-                        </tr>
-                      @endforeach
+                                </th>
+                            </tr>
+                        @endforeach
                     </tbody>
-                  </table>
+                </table>
             </div>
         </div>
     </div>

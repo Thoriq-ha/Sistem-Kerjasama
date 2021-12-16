@@ -17,6 +17,8 @@ class CreateUsulankerjasamasTable extends Migration
 			$table->id();
 			$table->string('tanggal_mulai');
 			$table->string('tanggal_selesai');
+			$table->string('catatan')->default('Belum Ada Catatan');
+			$table->string('status')->default('PENDING');
 			$table->unsignedBigInteger('id_kerjasama');
 			$table->foreign('id_kerjasama')->references('id')->on('kerjasamas')->onDelete('CASCADE');
 			$table->timestamps();

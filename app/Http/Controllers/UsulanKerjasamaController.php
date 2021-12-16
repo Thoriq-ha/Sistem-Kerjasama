@@ -3,18 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kerjasama;
+use App\Models\Riwayatusulan;
 use App\Models\User;
 use App\Models\Usulankerjasama;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UsulanKerjasamaController extends Controller
 {
 	public function index()
 	{
-		$usulankerjasama = Usulankerjasama::with('kerjasama')->get();
-		$kerjasamas = Kerjasama::get();
 
-		return view('usulankerjasama.index', compact('usulankerjasama', 'kerjasamas'));
+		if (Auth::user()->is_admin == 1) {
+			$users = User::get();
+			$usulankerjasama = Usulankerjasama::with('kerjasama')->get();
+			$kerjasamas = Kerjasama::with('user')->get();
+			return view('usulankerjasama.index', compact('users', 'usulankerjasama', 'kerjasamas'));
+		} else {
+			$kerjasamas = Kerjasama::with('user')->where('id_user', Auth::user()->id)->get();
+			$usulankerjasama = Usulankerjasama::with('kerjasama')->get();
+			// $usulankerjasama->kerjasama->where('id_user', Auth::user()->id)->get();
+			// dd($usulankerjasama);
+			return view('usulankerjasama.index', compact('usulankerjasama', 'kerjasamas'));
+		}
 	}
 
 	public function store(Request $request)
@@ -43,33 +54,46 @@ class UsulanKerjasamaController extends Controller
 	public function update(Request $request, $id)
 	{
 		$this->validate($request, [
-			'nama_kerjasama'     => 'required',
-			'deskripsi_kerjasama'   => 'required',
-			'jenis_kerjasama'   => 'required',
-			'bidang_kerjasama'   => 'required',
 			'tanggal_mulai'   => 'required',
 			'tanggal_selesai'   => 'required',
-			'file_usulan' => 'required',
-			'id_user'   => 'required',
+			'id_kerjasama'   => 'required',
 		]);
 		$users = User::all();
 
-		if ($request->hasFile('file_usulan')) {
-			$uk = new Usulankerjasama;
-			$request->file('file_usulan')->move('file_usulan/', $request->file('file_usulan')->getClientOriginalName());
-			$uk->path = $request->file('file_usulan')->getClientOriginalName();
-			$usulan = Usulankerjasama::find($id)->update([
-				'nama_kerjasama'     => $request->nama_kerjasama,
-				'deskripsi_kerjasama'   => $request->deskripsi_kerjasama,
-				'jenis_kerjasama'   => $request->jenis_kerjasama,
-				'bidang_kerjasama'   => $request->bidang_kerjasama,
-				'tanggal_mulai'   => $request->tanggal_mulai,
-				'tanggal_selesai'   => $request->tanggal_selesai,
-				'file_usulan'   => $request->file_usulan,
-				'id_user'   => $request->id_user,
+
+		Usulankerjasama::find($id)->update($request->all());
+		return redirect(route('usulan_kerjasama.index'));
+	}
+
+	public function accepted($accepted)
+	{
+		$status = Usulankerjasama::find($accepted);
+		$status->update([
+			'status' => 'ACCEPTED'
+		]);
+		if ($status) {
+			Riwayatusulan::create([
+				'status' => 'ACCEPTED',
+				'id_usulankerjasama' => $accepted,
 			]);
-			return redirect(route('usulan_kerjasama.index'));
 		}
+		return redirect(route('usulan_kerjasama.index'));
+	}
+	public function rejected(Request $request, $rejected)
+	{
+		$status = Usulankerjasama::find($rejected);
+		$status->update([
+			'status' => 'REJECTED',
+			'catatan' => $request->catatan,
+		]);
+		if ($status) {
+			Riwayatusulan::create([
+				'status' => 'REJECTED',
+				'catatan' => $request->catatan,
+				'id_usulankerjasama' => $rejected,
+			]);
+		}
+		return redirect(route('usulan_kerjasama.index'));
 	}
 
 	public function destroy($id)
