@@ -30,13 +30,20 @@
                                 <div class="modal-body">
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">Mitra</label>
-                                        <select name="id_mitra" id="" class="form-control">
-                                            <option value="">- Pilih Mitra -</option>
-                                            @foreach ($mitras as $mitra)
-                                                <option value="{{ $mitra->id }}">{{ $mitra->nama_lembaga }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+
+                                        @if (Auth::user()->is_admin == 1)
+                                            <select name="id_user" id="" class="form-control">
+                                                <option value="">- Pilih Mitra -</option>
+                                                @foreach ($users as $user)
+                                                    <option value="{{ $user->id }}">{{ $user->nama_lembaga }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        @else
+                                            <input type="text" disabled value="{{ Auth::user()->nama_lembaga }}"
+                                                class="form-control">
+                                        @endif
+
                                         <div id="emailHelp" class="form-text"></div>
                                     </div>
                                     <div class="mb-3">
@@ -106,7 +113,7 @@
                         @foreach ($kerjasamas as $krjs)
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
-                                <th>{{ $krjs->mitra->nama_lembaga }}</th>
+                                <th>{{ $krjs->user->nama_lembaga }}</th>
                                 <th>{{ $krjs->nama_kerjasama }}</th>
                                 <th>{{ $krjs->jenis_kerjasama }}</th>
                                 <th>{{ $krjs->bidang_kerjasama }}</th>

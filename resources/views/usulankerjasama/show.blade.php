@@ -11,7 +11,8 @@
                 <div class="card" style="width: 100%;">
 
                     <div class="card-body">
-                        <h3 class="card-title">Nama Pengaju : {{ $uk->kerjasama->mitra->nama_lembaga }}</h3>
+                        <h3 class="card-title">Nama PIC : {{ $uk->kerjasama->user->name }}</h3>
+                        <h3 class="card-title">Nama Lembaga : {{ $uk->kerjasama->user->nama_lembaga }}</h3>
                         <h5 class="card-title">Nama Kerjasama : {{ $uk->kerjasama->nama_kerjasama }}</h5>
                         <p class="card-text">Deskripsi Kerjasama : {{ $uk->kerjasama->deskripsi_kerjasama }}</p>
                         <li class="list-group-item">Jenis Kerjasama : {{ $uk->kerjasama->jenis_kerjasama }}</li>
@@ -32,7 +33,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">Edit Usulan Kerjasama</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>

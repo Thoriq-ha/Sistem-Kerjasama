@@ -13,58 +13,40 @@
                         <tr>
                             <th scope="col">No.</th>
                             <th scope="col">Nama Kerjasama</th>
+                            <th scope="col">PIC</th>
                             <th scope="col">Mitra</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Aksi</th>
+                            <th scope="col">Catatan</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($usulankerjasama as $uk)
+                        @foreach ($riwayats as $rw)
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
-                                <th>{{ $uk->kerjasama->nama_kerjasama }}</th>
-                                <th>{{ $uk->kerjasama->mitra->nama_lembaga }}</th>
-                                <th>AKTIF</th>
+                                <th>{{ $rw->usulan->kerjasama->nama_kerjasama }}</th>
+                                <th>{{ $rw->usulan->kerjasama->user->name }}</th>
+                                <th>{{ $rw->usulan->kerjasama->user->nama_lembaga }}</th>
                                 <th>
-                                    <a href="{{ route('usulan_kerjasama.show', ['usulan_kerjasama' => $uk]) }}"
-                                        class="btn btn-info mb-2">Detail</a>
-
-
-                                    <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal2{{ $uk['id'] }}">
-                                        Delete
-                                    </button>
-
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal2{{ $uk['id'] }}" tabindex="-1"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel"><span
-                                                            class="text-warning"></span></h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body"><span class="text-warning">Apa anda yakin
-                                                        ingin menghapus data Usulan Kerjasama?</span>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-danger"
-                                                        data-bs-dismiss="modal">Tidak</button>
-                                                    <form
-                                                        action="{{ route('usulan_kerjasama.destroy', ['usulan_kerjasama' => $uk]) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('delete')
-                                                        <button type="submit" class="btn btn-success">Ya</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    @php
+                                        $now = Carbon\Carbon::now()->format('Y-m-d');
+                                    @endphp
+                                    @if ($rw->status == 'PENDING')
+                                        <span class="badge rounded-pill bg-warning text-dark">PENDING</span>
+                                    @elseif ($rw->status == 'REJECTED')
+                                        <span class="badge rounded-pill bg-danger">REJECTED / REVISION</span>
+                                    @elseif ($rw->status == 'ACCEPTED')
+                                        @if ($now >= $rw->usulan->tanggal_mulai && $now <= $rw->usulan->tanggal_selesai)
+                                            <span class="badge rounded-pill bg-success">ACCEPTED / In Progress</span>
+                                        @elseif ($now > $rw->usulan->tanggal_selesai)
+                                            <span class="badge rounded-pill bg-warning text-dark">ACCEPTED / DONE</span>
+                                        @elseif ($now < $rw->usulan->tanggal_mulai)
+                                                <span class="badge rounded-pill bg-warning text-dark">ACCEPTED / COMMING
+                                                    SOON</span>
+                                        @endif
+                                    @endif
                                 </th>
+                                <th>{{ $rw->catatan }}</th>
+
                             </tr>
                         @endforeach
                     </tbody>

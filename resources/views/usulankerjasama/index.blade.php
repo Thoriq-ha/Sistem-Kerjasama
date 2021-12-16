@@ -65,6 +65,8 @@
                             <th scope="col">No.</th>
                             <th scope="col">Nama Kerjasama</th>
                             <th scope="col">Mitra</th>
+                            <th scope="col">Tanggal Mulai</th>
+                            <th scope="col">Tanggal Selesai</th>
                             <th scope="col">Status</th>
                             <th scope="col">Aksi</th>
                         </tr>
@@ -74,8 +76,28 @@
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <th>{{ $uk->kerjasama->nama_kerjasama }}</th>
-                                <th>{{ $uk->kerjasama->mitra->nama_lembaga }}</th>
-                                <th>Tidak disetujui/Revisi</th>
+                                <th>{{ $uk->kerjasama->user->nama_lembaga }}</th>
+                                <th>{{ $uk->tanggal_mulai }}</th>
+                                <th>{{ $uk->tanggal_selesai }}</th>
+                                <th>
+                                    @php
+                                        $now = Carbon\Carbon::now()->format('Y-m-d');
+                                    @endphp
+                                    @if ($uk->status == 'PENDING')
+                                        <span class="badge rounded-pill bg-warning text-dark">PENDING</span>
+                                    @elseif ($uk->status == 'REJECTED')
+                                        <span class="badge rounded-pill bg-danger">REJECTED / REVISION</span>
+                                    @elseif ($uk->status == 'ACCEPTED')
+                                        @if ($now >= $uk->tanggal_mulai && $now <= $uk->tanggal_selesai)
+                                            <span class="badge rounded-pill bg-success">ACCEPTED / In Progress</span>
+                                        @elseif ($now > $uk->tanggal_selesai)
+                                            <span class="badge rounded-pill bg-warning text-dark">ACCEPTED / DONE</span>
+                                        @elseif ($now < $uk->tanggal_mulai)
+                                                <span class="badge rounded-pill bg-warning text-dark">ACCEPTED / COMMING
+                                                    SOON</span>
+                                        @endif
+                                    @endif
+                                </th>
                                 <th>
                                     <a href="{{ route('usulan_kerjasama.show', ['usulan_kerjasama' => $uk]) }}"
                                         class="btn btn-info mb-2">Detail</a>
@@ -86,6 +108,45 @@
                                         data-bs-target="#exampleModal2{{ $uk['id'] }}">
                                         Delete
                                     </button>
+                                    @if (Auth::user()->is_admin == 1)
+                                        <a href="usulan_kerjasama/{{ $uk['id'] }}/accepted"
+                                            class="btn btn-success">ACCEPTED</a>
+                                        <button type="button" class="btn btn-danger mb-3" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal3{{ $uk['id'] }}">
+                                            REJECTED
+                                        </button>
+                                        <div class="modal fade" id="exampleModal3{{ $uk['id'] }}" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title text-dark" id="exampleModalLabel">Catatan
+                                                        </h5>
+                                                        <button type="button" class="btn-close"
+                                                            data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <form action="usulan_kerjasama/{{ $uk['id'] }}/rejected"
+                                                        method="GET">
+                                                        @csrf
+                                                        <div class="modal-body">
+                                                            <div class="mb-3">
+                                                                <label for="catatan"
+                                                                    class="form-label text-dark">Catatan</label>
+                                                                <textarea name="catatan" id="" class="form-control"
+                                                                    cols="30" rows="10">{{ $uk->catatan }}</textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-danger">Rejected
+                                                                Now</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
 
                                     <!-- Modal -->
                                     <div class="modal fade" id="exampleModal2{{ $uk['id'] }}" tabindex="-1"

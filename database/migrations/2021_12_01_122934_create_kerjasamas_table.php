@@ -20,8 +20,8 @@ class CreateKerjasamasTable extends Migration
 			$table->string('jenis_kerjasama');
 			$table->string('bidang_kerjasama');
 			$table->string('file_kerjasama');
-			$table->unsignedBigInteger('id_mitra');
-			$table->foreign('id_mitra')->references('id')->on('mitras')->onDelete('CASCADE');
+			$table->unsignedBigInteger('id_user');
+			$table->foreign('id_user')->references('id')->on('users')->onDelete('CASCADE');
 			$table->softDeletes();
 			$table->timestamps();
 		});
